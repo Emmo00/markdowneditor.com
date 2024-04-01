@@ -3,64 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Auth;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $projects = Project::where('user_id', Auth::id())->orderByDesc('created_at');
+        return view('editor', ['projects' => $projects]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $project = new Project();
+
+        $project->user_id = Auth::id();
+        $project->content = "Hello world";
+        $project->save();
+
+        return redirect()->route('project.show', ['id' => $project]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProjectRequest $request)
+    public function save(StoreProjectRequest $request)
     {
-        //
+        return 'me';
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Project $project)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProjectRequest $request, Project $project)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Project $project)
-    {
-        //
+        dd($project);
     }
 }

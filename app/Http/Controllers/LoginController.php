@@ -13,6 +13,14 @@ class LoginController extends Controller
 {
     protected array $providers = ['google'];
 
+    public function login()
+    {
+        if (Auth::user()) {
+            return redirect()->route('project.index');
+        }
+        return view('login');
+    }
+
     public function redirect(string $provider)
     {
         if (!in_array($provider, $this->providers)) {
@@ -41,6 +49,6 @@ class LoginController extends Controller
         );
 
         Auth::login($user_from_db);
-        return redirect('editor');
+        return redirect()->route('project.index');
     }
 }
