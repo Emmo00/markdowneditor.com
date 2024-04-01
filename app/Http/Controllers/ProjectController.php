@@ -11,8 +11,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::where('user_id', Auth::id())->orderByDesc('created_at');
-        return view('editor', ['projects' => $projects]);
+        return view('editor');
     }
     public function create()
     {
